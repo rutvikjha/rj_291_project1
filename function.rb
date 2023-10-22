@@ -10,14 +10,14 @@ def main(event:, context:)
   if event['path'] == '/'
     #Execute get request
     if event['httpMethod'] == 'GET'
-      #handle get request
+      GET(event, context)
     else
       response(body: {error: 'Method Not Allowed'}, status: 405)
     end
   elsif event['path'] == '/token'
     #execute post request
     if event['httpMethod'] == 'POST'
-      #handle post request
+      POST(event, context)
     else
       response(body: {error: 'Method Not Allowed'}, status: 405)
     end
@@ -33,7 +33,7 @@ def response(body: nil, status: 200)
   }
 end
 
-def GET(event)
+def GET(event, context)
   begin
     headers = event['headers']
     auth = headers['Authorization']
@@ -65,7 +65,7 @@ def GET(event)
   end
 end
 
-def POST(event)
+def POST(event, context)
   begin
     #request content type is not 'application/json'
     if event["Headers"]["Content-Type"] != "application/json"
